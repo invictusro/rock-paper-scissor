@@ -32,7 +32,33 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-const playerSelection = "rock";
-const computerSelection = computerPlay();
+const selectionButtons = document.getElementsByClassName("selection-btn");
+const roundInfoDiv = document.getElementById("round-info");
+const matchInfoDiv = document.getElementById("match-info");
+var computerScore = 0;
+var playerScore = 0;
 
-console.log(playRound(playerSelection, computerSelection));
+roundInfoDiv.style.display = "none";
+for (var i = 0; i < selectionButtons.length; i++) {
+  selectionButtons[i].addEventListener(
+    "click",
+    function () {
+      var roundInfo = playRound(this.id, computerPlay());
+      console.log(roundInfo);
+
+      if (roundInfo.includes("won")) {
+        playerScore += 1;
+      } else if (roundInfo.includes("lost")) {
+        computerScore += 1;
+      }
+      roundInfoDiv.textContent = roundInfo;
+      roundInfoDiv.style.display = "block";
+      matchInfoDiv.textContent = `YOU ${playerScore}: ${computerScore} COMPUTER`;
+
+      setTimeout(function () {
+        roundInfoDiv.style.display = "none";
+      }, 2000);
+    },
+    false
+  );
+}
